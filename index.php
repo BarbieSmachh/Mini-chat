@@ -62,27 +62,44 @@
 
         ?>
     </div>
-
-    <div id="user-list">
-        <?php
-        try {
-            $db = new PDO($dsn, $user, $password);
-
-
-            $usersQuery = "SELECT usernames FROM usernames";
-            $usersStatement = $db->query($usersQuery);
-            $users = $usersStatement->fetchAll(PDO::FETCH_COLUMN);
-            echo '<ul>';
-            foreach ($users as $user) {
-                echo '<li>' . $user . '</li>';
-            }
-            echo '</ul>';
-        } catch (PDOException $e) {
-            echo 'An error occurred: ' . $e->getMessage();
-        }
         
-        ?>
-    </div>
+    <div id="user-list">
+    <?php
+    try {
+        $db = new PDO($dsn, $user, $password);
+
+        $usersQuery = "SELECT usernames FROM usernames";
+        $usersStatement = $db->query($usersQuery);
+        $users = $usersStatement->fetchAll(PDO::FETCH_COLUMN);
+        echo '<ul>';
+        foreach ($users as $user) {
+            echo '<li class="username">' . $user . '</li>';
+        }
+        echo '</ul>';
+    } catch (PDOException $e) {
+        echo 'An error occurred: ' . $e->getMessage();
+    }
+    ?>
+</div>
+
+<script>
+    function generateRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    var usernames = document.getElementsByClassName('username');
+    for (var i = 0; i < usernames.length; i++) {
+        var color = generateRandomColor();
+        usernames[i].style.color = color;
+    }
+</script>
+
+
 </div>
 
     <div>
